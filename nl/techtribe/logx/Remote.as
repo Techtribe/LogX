@@ -29,7 +29,7 @@ package nl.techtribe.logx
 		{
 			groupID = g;
 			
-			registerClassAlias('nl.techtribe.logger.swc.util.vo.VOLogMessage', VOLogMessage);
+			registerClassAlias('nl.techtribe.logx.vo.VOLogMessage', VOLogMessage);
 			
 			nc = new NetConnection();
 			nc.addEventListener(NetStatusEvent.NET_STATUS, netStatus);
