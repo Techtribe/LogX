@@ -80,4 +80,4 @@ or
 	Log.children(new Point(mouseX,mouseY));
 </code>
 
-Fork for whatever function you like to add or contact us at [Techtribe](opensource@techtribe.nl "Techtribe").
+Fork for whatever function you like to add or contact us at [Techtribe](mailto:opensource@techtribe.nl "Techtribe").
