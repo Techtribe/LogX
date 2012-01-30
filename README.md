@@ -76,7 +76,7 @@ Now you can discover the children by:
 </code>  
 or  
 <code>
-	Log.children(new Point(50,50));
+	Log.children(new Point(50,50));  
 	Log.children(new Point(mouseX,mouseY));
 </code>
 
