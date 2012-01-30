@@ -69,7 +69,7 @@ You can also detect which children are available on the Stage. It is **IMPORTANT
 <code>
 	Log.stage = this.stage;
 </code>  
-to ensure LogX can access the Stage. *Note that you will need to have access before settings this stage-property!*  
+to ensure LogX can access the Stage. *Note that you will need to have access before setting this stage-property!*  
 Now you can discover the children by:  
 <code>
 	Log.children();
