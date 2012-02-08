@@ -1,11 +1,14 @@
 package nl.techtribe.logx
 {
+	import nl.techtribe.logx.vo.VOLogLevel;
+	import nl.techtribe.logx.vo.VOLogMessage;
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;
+	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.system.System;
-	import nl.techtribe.logx.vo.VOLogLevel;
 
 	/**
 	 * Log, a small but powerful tool for logging statements, objects and properties.
@@ -25,6 +28,8 @@ package nl.techtribe.logx
 		private static var _remoteConnection:Remote;
 		private static var _remote:Boolean = false;
 		private static var _remoteID:String;
+		private static var _remoteReady:Boolean = false;
+		private static var _waitMessages:Vector.<VOLogMessage> = new Vector.<VOLogMessage>();
 		private static var _enabled:Boolean = true;
 		private static var _restrictLevel:VOLogLevel = new VOLogLevel();
 		
@@ -64,6 +69,7 @@ package nl.techtribe.logx
 			{
 				s += ' ('+createMemory()+')'; 
 			}
+			
 			//log
 			send(s,level);
 		}
@@ -219,13 +225,17 @@ package nl.techtribe.logx
 				
 				if(_remote){
 					_remoteConnection = new Remote(_remoteID);
+					_remoteConnection.addEventListener(Remote.EVENT_READY, remoteReady);
 				}else{
+					_remoteConnection.removeEventListener(Remote.EVENT_READY, remoteReady);
 					_remoteConnection.dispose();
 					_remoteConnection = null;
+					_waitMessages.splice(0,_waitMessages.length);
+					_remoteReady = false;
 				}
 			}
 		}
-		
+
 		/**
 		 * Retrieve remote ID to connect to.
 		 * @return <code>String</code> - remote ID that is used as a group identifier.
@@ -291,7 +301,20 @@ package nl.techtribe.logx
 		/////////////////// PRIVATE FUNCTIONS /////////////////
 		
 		
-		
+		private static function remoteReady(event : Event) : void
+		{
+			_remoteReady = true;
+			//paste all captured messages
+			if(_remoteConnection){
+				for each(var vo:VOLogMessage in _waitMessages)
+				{
+					send(vo.msg,vo.level);
+				}				
+				_waitMessages.splice(0,_waitMessages.length);
+			}else{
+				trace(logLevel(WARNING)+'	The RTMFP/P2P connection has been terminated unexpectedly.');
+			}
+		}		
 		
 		private static function shortenNumber(input:Number,no:int):String
 		{
@@ -423,6 +446,16 @@ package nl.techtribe.logx
 		private static function send(input:String,level:int):void
 		{
 			if(remote){
+				//check if messages need to be stored
+				if(remote && !_remoteReady)
+				{
+					var vo:VOLogMessage = new VOLogMessage();
+					vo.msg = input;
+					vo.level = level;
+					
+					_waitMessages.push(vo);
+				}
+			
 				//send through rtmfp
 				if(_remoteConnection)
 				{

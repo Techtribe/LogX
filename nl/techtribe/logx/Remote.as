@@ -1,5 +1,9 @@
 package nl.techtribe.logx
 {
+	import nl.techtribe.logx.vo.VOLogMessage;
+
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.NetStatusEvent;
 	import flash.net.GroupSpecifier;
 	import flash.net.NetConnection;
@@ -8,13 +12,14 @@ package nl.techtribe.logx
 	import flash.net.NetGroupSendMode;
 	import flash.net.NetGroupSendResult;
 	import flash.net.registerClassAlias;
-	import nl.techtribe.logx.vo.VOLogMessage;
 
 	/**
 	 * @author joeyvandijk
 	 */
-	public class Remote
+	public class Remote extends EventDispatcher
 	{
+		public static const EVENT_READY:String = 'event.remote.ready';
+		
 		private var group : NetGroup;
 		private var nc:NetConnection;
 		private var _ready:Boolean = false;
@@ -46,9 +51,13 @@ package nl.techtribe.logx
 				case NetStatusCode.NETGROUP_CONNECT_SUCCESS:
 					peerID = nc.nearID;
 
-					_ready = true;
 					break;
 				case NetStatusCode.NETGROUP_NEIGHBOUR_CONNECT:
+					if(!_ready)
+					{
+						_ready = true;
+						dispatchEvent(new Event(EVENT_READY));
+					}
 					group.receiveMode = NetGroupReceiveMode.NEAREST;
 
 					neighbour = nc.farID;
@@ -112,7 +121,7 @@ package nl.techtribe.logx
 
 			if(group.neighborCount == 0){
 				connectionWarning('Log.x(): No neighbour found to connect with.');
-			}else{
+			}else{	
 				var result:String = group.sendToNeighbor(vo,NetGroupSendMode.NEXT_INCREASING);
 				if(result == NetGroupSendResult.ERROR)
 				{
