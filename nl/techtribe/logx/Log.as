@@ -1,5 +1,6 @@
 package nl.techtribe.logx
 {
+	import flash.utils.getTimer;
 	import nl.techtribe.logx.vo.VOLogLevel;
 	import nl.techtribe.logx.vo.VOLogMessage;
 
@@ -34,10 +35,11 @@ package nl.techtribe.logx
 		private static var _restrictLevel:VOLogLevel = new VOLogLevel();
 		
 		public static var timestamp:Boolean = false;
+		public static var ms:Boolean = false;
 		public static var memory:Boolean = false;
 		
 		/**
-		 * Logging function g(input:*) to trace all kinds of information.
+		 * Logging function x(input:*) to trace all kinds of information.
 		 * @param input <code>Object, String, Array, *</code> - to trace
 		 * @param level <code>int</code> - of log level
 		 * @param properties <code>Vector.&lt;int&gt;</code> - properties to show
@@ -178,6 +180,54 @@ package nl.techtribe.logx
 			}else{
 				x('Log.restrict() needs an Array/Vector/int to compile, but a '+level+' is now provided.',ERROR);
 			}
+		}
+		
+		/**
+		 * Logging function error(input:*) to trace all kinds of error information.
+		 * @param input <code>Object, String, Array, *</code> - to trace
+		 * @param properties <code>Vector.&lt;int&gt;</code> - properties to show
+		 * @default <code>ERROR</code>
+		 */
+		public static function error(input:*,props:Vector.<String> = null):void
+		{
+			//alternative way of referencing LogX in your code
+			Log.x(input,Log.ERROR,props);
+		}
+		
+		/**
+		 * Logging function info(input:*) to trace all kinds of info information.
+		 * @param input <code>Object, String, Array, *</code> - to trace
+		 * @param properties <code>Vector.&lt;int&gt;</code> - properties to show
+		 * @default <code>INFO</code>
+		 */
+		public static function info(input:*,props:Vector.<String> = null):void
+		{
+			//alternative way of referencing LogX in your code
+			Log.x(input,Log.INFO,props);
+		}
+		
+		/**
+		 * Logging function debug(input:*) to trace all kinds of debug information.
+		 * @param input <code>Object, String, Array, *</code> - to trace
+		 * @param properties <code>Vector.&lt;int&gt;</code> - properties to show
+		 * @default <code>DEBUG</code>
+		 */
+		public static function debug(input:*,props:Vector.<String> = null):void
+		{
+			//alternative way of referencing LogX in your code
+			Log.x(input,Log.DEBUG,props);
+		}
+		
+		/**
+		 * Logging function warning(input:*) to trace all kinds of warning information.
+		 * @param input <code>Object, String, Array, *</code> - to trace
+		 * @param properties <code>Vector.&lt;int&gt;</code> - properties to show
+		 * @default <code>WARNING</code>
+		 */
+		public static function warning(input:*,props:Vector.<String> = null):void
+		{
+			//alternative way of referencing LogX in your code
+			Log.x(input,Log.WARNING,props);
 		}
 		
 		
@@ -354,6 +404,10 @@ package nl.techtribe.logx
 		
 		private static function createTimestamp():String
 		{
+			if(ms)
+			{
+				return String(getTimer());
+			}
 			var d:Date = new Date();
 			var s:String = '';
 			s += createTime(d.getHours())+':';

@@ -121,7 +121,7 @@ package nl.techtribe.logx
 
 			if(group.neighborCount == 0){
 				connectionWarning('Log.x(): No neighbour found to connect with.');
-			}else{	
+			}else{				
 				var result:String = group.sendToNeighbor(vo,NetGroupSendMode.NEXT_INCREASING);
 				if(result == NetGroupSendResult.ERROR)
 				{
