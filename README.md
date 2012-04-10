@@ -66,7 +66,7 @@ A few options are available to you, when tracing your message:
 ### Timestamp
 While having sometimes the need to identify how much time has passed, you have the option to add a timestamp to your trace() action.  
 <code>Log.timestamp = true;</code>  
-will result in "12:01:02::289" before your trace()-statement.  
+will result in "12:01:02::289" before your trace()-statements.  
 You have also the option to minimize that time into "289 ms" by coding  
 <code>Log.ms = true;</code>  
 When you want to reset this behaviour, just disable it by  
@@ -75,6 +75,7 @@ When you want to reset this behaviour, just disable it by
 ### Memory
 To follow your memory usage during your trace()-statements you can add this information with  
 <code>Log.memory = true;</code>  
+will result in "12.45 MB" after your trace()-statements.
 Disable it, like <code>Log.timestamp</code> to set its value to "false".
 
 ### Stage children
