@@ -23,18 +23,12 @@ Usage
 
 ### Local/Remote
 The most important functionality is the switch between local (on your computer) and remote (through RTMFP) logging. Local logging is default, but you can switch anytime with:  
-<code>
-	Log.remoteID = 'nl.techtribe.test'; 
-	Log.remote = true; //RTMFP will be activated
-</code>  
+<code>Log.remoteID = 'nl.techtribe.test';</code>  
+<code>Log.remote = true; //RTMFP will be activated</code>  
 Where  
-<code>
-	Log.remoteID = 'nl.techtribe.test';
-</code>  
+<code>Log.remoteID = 'nl.techtribe.test';</code>  
 will be used as an unique identifier used to identify the session in your listen-AIR-application. It is **IMPORTANT** to always set this property before starting the remote (RTMFP) session with:  
-<code>
-	Log.remote = true;
-</code>  
+<code>Log.remote = true;</code>  
 
 ### Trace Functionality
 A few options are available to you, when tracing your message:
@@ -63,6 +57,25 @@ A few options are available to you, when tracing your message:
 * skip certain levels :
   * <code>Log.skip([Log.DEBUG]);</code>
   * <code>Log.skip(Vector.<int>([Log.DEBUG,LOG.WARNING]));</code>
+* extended simple: (skip level information, if you wish)
+  * <code>Log.error('An error has occured')</code>
+  * <code>Log.debug('This object has the following x,y position: ',Vector.<String>(['x','y']))</code>
+  * <code>Log.warning('Watch out that this file does not load before the main data file.')</code>
+  * <code>Log.info('Just some general information')</code>
+
+### Timestamp
+While having sometimes the need to identify how much time has passed, you have the option to add a timestamp to your trace() action.  
+<code>Log.timestamp = true;</code>  
+will result in "12:01:02::289" before your trace()-statement.  
+You have also the option to minimize that time into "289 ms" by coding  
+<code>Log.ms = true;</code>  
+When you want to reset this behaviour, just disable it by  
+<code>Log.timestamp = false;</code>
+
+### Memory
+To follow your memory usage during your trace()-statements you can add this information with  
+<code>Log.memory = true;</code>  
+Disable it, like <code>Log.timestamp</code> to set its value to "false".
 
 ### Stage children
 You can also detect which children are available on the Stage. It is **IMPORTANT** to execute first  
@@ -71,13 +84,9 @@ You can also detect which children are available on the Stage. It is **IMPORTANT
 </code>  
 to ensure LogX can access the Stage. *Note that you will need to have access before setting this stage-property!*  
 Now you can discover the children by:  
-<code>
-	Log.children();
-</code>  
+<code>Log.children();</code>  
 or  
-<code>
-	Log.children(new Point(50,50));  
-	Log.children(new Point(mouseX,mouseY));
-</code>
+<code>Log.children(new Point(50,50));</code>
+<code>Log.children(new Point(mouseX,mouseY));</code>
 
 Fork for whatever function you like to add or contact us at [Techtribe](mailto:opensource@techtribe.nl?subject=LogX "Techtribe").
