@@ -55,7 +55,13 @@ package nl.techtribe.logx
 				if(!_restrictLevel.find(level)){
 					return;
 				}
-			}			
+			}
+			
+			//detect if ms is set and timestamp not
+			if(ms)
+			{
+				Log.timestamp = true;
+			}
 
 			//check timestamp
 			if(timestamp)
@@ -406,7 +412,7 @@ package nl.techtribe.logx
 		{
 			if(ms)
 			{
-				return String(getTimer());
+				return String(getTimer()+' ms');
 			}
 			var d:Date = new Date();
 			var s:String = '';
